@@ -6,8 +6,10 @@ import { userAPI } from '../services/api';
 import { debugArticleImages, getEnhancedImageUrl, isLikelyCorsBlocked, getCorsProxyUrl, testImageWithFallback } from '../utils/imageUtils';
 import ArticleSummary from './ArticleSummary';
 import { useNavigate } from 'react-router-dom';
-
+import { useTheme } from '../context/ThemeContext'; // ✅ Add this
+// import '../styles/NewsCard.css'; // Import your styles
 export default function NewsCard({ article, onLike, onBookmark, onShare, showStatus = true }) {
+   const { isDarkMode } = useTheme(); 
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -162,7 +164,17 @@ export default function NewsCard({ article, onLike, onBookmark, onShare, showSta
 
   return (
     <>
-      <div className=" rounded-lg overflow-hidden hover:bg-slate-750 transition-all duration-300 border border-slate-700 hover:border-slate-600" style={{ backgroundColor: '#1F2937' }}>
+      <motion.div 
+        className={`news-card rounded-lg overflow-hidden transition-all duration-300 border hover-lift ${
+          isDarkMode 
+            ? 'bg-gray-800 border-gray-700 hover:border-gray-600 hover:bg-gray-750' 
+            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+        }`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        whileHover={{ y: -4, scale: 1.01 }}
+      >
         {/* Article Image */}
         <div className="relative">
           {imageUrl && !imageError ? (
@@ -170,46 +182,67 @@ export default function NewsCard({ article, onLike, onBookmark, onShare, showSta
               <img
                 src={imageUrl}
                 alt={article.title} 
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                 onLoad={handleImageLoad}
                 onError={handleImageError}
                 loading="lazy"
                 crossOrigin="anonymous"
               />
               {imageLoading && (
-                <div className="absolute inset-0 bg-slate-700 flex items-center justify-center">
+                <div className={`absolute inset-0 flex items-center justify-center ${
+                  isDarkMode ? 'bg-gray-700' : 'bg-gray-200'
+                }`}>
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500"></div>
                 </div>
               )}
               {/* Video Play Button Overlay */}
               {hasVideo && !imageLoading && (
                 <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
+                  <motion.div 
+                    className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
                     <FaPlay className="text-white text-lg ml-1" />
-                  </div>
+                  </motion.div>
                 </div>
               )}
             </div>
           ) : (
-            <div className="w-full h-48 bg-slate-700 flex items-center justify-center">
+            <div className={`w-full h-48 flex items-center justify-center ${
+              isDarkMode ? 'bg-gray-700' : 'bg-gray-200'
+            }`}>
               <div className="text-center">
-                <FaEye className="text-gray-500 text-4xl mx-auto mb-2" />
-                <p className="text-gray-400 text-sm capitalize">{category}</p>
+                <FaEye className={`text-4xl mx-auto mb-2 ${
+                  isDarkMode ? 'text-gray-500' : 'text-gray-400'
+                }`} />
+                <p className={`text-sm capitalize ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>{category}</p>
               </div>
             </div>
           )}
           
           {/* Category Tag */}
           <div className="absolute top-3 left-3">
-            <span className={`px-2 py-1 text-xs font-medium text-white rounded ${getCategoryColor(category)}`}>
+            <motion.span 
+              className={`px-2 py-1 text-xs font-medium text-white rounded ${getCategoryColor(category)}`}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+            >
               {category}
-            </span>
+            </motion.span>
           </div>
           
           {/* Bookmark Button */}
           <motion.button
             onClick={handleBookmark}
-            className="absolute top-3 right-3 p-2 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-all"
+            className={`absolute top-3 right-3 p-2 backdrop-blur-sm rounded-full transition-all duration-300 ${
+              isDarkMode 
+                ? 'bg-black/50 hover:bg-black/70' 
+                : 'bg-white/80 hover:bg-white/90'
+            }`}
             whileTap={{ scale: 1.3, rotate: 20 }}
             whileHover={{ scale: 1.1 }}
             aria-label="Bookmark"
@@ -233,7 +266,9 @@ export default function NewsCard({ article, onLike, onBookmark, onShare, showSta
                   exit={{ scale: 0.7, rotate: -30, opacity: 0 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                 >
-                  <FaBookmark className="text-gray-400 text-sm" />
+                  <FaBookmark className={`text-sm ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`} />
                 </motion.span>
               )}
             </AnimatePresence>
@@ -260,30 +295,44 @@ export default function NewsCard({ article, onLike, onBookmark, onShare, showSta
           </div>
 
           {/* Title */}
-          <h3 className="text-white font-bold text-lg mb-3 line-clamp-2 cursor-pointer hover:text-teal-400 transition-colors leading-tight">
+          <h3 className={`font-bold text-lg mb-3 line-clamp-2 cursor-pointer transition-colors duration-300 leading-tight ${
+            isDarkMode 
+              ? 'text-white hover:text-teal-400' 
+              : 'text-gray-900 hover:text-teal-600'
+          }`}>
             {article.title}
           </h3>
 
           {/* Description */}
-          <p className="text-gray-300 text-sm mb-4 line-clamp-3 leading-relaxed">
+          <p className={`text-sm mb-4 line-clamp-3 leading-relaxed ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             {article.description || article.summary || 'No description available'}
           </p>
 
           {/* Meta and Actions */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-gray-400 text-xs">
+            <div className={`flex items-center gap-3 text-xs ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               <span className="font-medium">4 min read</span>
             </div>
-            <button
+            <motion.button
               onClick={handleReadFullArticle}
-              className="flex items-center gap-2 px-3 py-1 text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium"
+              className={`flex items-center gap-2 px-3 py-1 text-sm font-medium transition-colors duration-300 hover-lift ${
+                isDarkMode 
+                  ? 'text-teal-400 hover:text-teal-300' 
+                  : 'text-teal-600 hover:text-teal-700'
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Read full article
               <FaExternalLinkAlt className="text-xs" />
-            </button>
+            </motion.button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Article Summary Modal */}
       {/* Remove modal opening for summary, as we now use a dedicated page */}

@@ -88,46 +88,37 @@ export default function Layout({ children }) {
   // Responsive and theme-aware background
   return (
     <div
-      className={`min-h-screen ${isDarkMode ? 'dark' : 'light'} bg-gray-50 dark:bg-[#111827] transition-colors duration-500`}
-      style={{ backgroundColor: isDarkMode ? '#111827' : '#f8fafc' }}
+      className={`min-h-screen ${isDarkMode ? 'dark' : ''} theme-transition`}
+      style={{ 
+        backgroundColor: isDarkMode ? '#111827' : '#ffffff',
+        color: isDarkMode ? '#ffffff' : '#111827'
+      }}
     >
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-50 style={{ backgroundColor: '#111827' }} backdrop-blur-md border-b border-gray-700">
+      <header className={`sticky top-0 z-50 backdrop-blur-md border-b theme-transition ${
+        isDarkMode ? 'bg-gray-900/95 border-gray-700' : 'bg-white/95 border-gray-200'
+      }`}>
         <div className="flex items-center justify-between px-6 py-4">
           {/* Left: Logo and Mobile Menu */}
           <div className="flex items-center gap-4">
-            {/* <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-400"
-            >
-              {sidebarOpen ? <FaTimes /> : <FaBars />}
-            </button> */}
-            
-            {/* <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
-                <FaShieldAlt className="text-white text-sm" />
-              </div>
-              <span className="font-bold text-xl text-white">phish defense.</span>
+            <div className="flex items-center gap-3 hover-lift">
+              <img
+                src="/images/lightmodelogo.png"
+                alt="Phish Defense News Logo"
+                className="w-2xs h-fit object-contain transition-transform duration-300"
+              />
             </div>
-          </div> */}
-<div className="flex items-center gap-3">
-  <img
-    src="/images/lightmodelogo.png"
-    alt="Phish Defense News Logo"
-    className="w-2xs h-fit object-contain"
-  />
-</div>
-</div>
+          </div>
 
           {/* Center: Navigation Links (Desktop) */}
           <nav className="hidden md:flex items-center gap-8">
             <NavLink
               to="/"
               className={({ isActive }) =>
-                `px-4 py-2 rounded-lg font-medium transition-colors ${
+                `px-4 py-2 rounded-lg font-medium transition-all duration-300 hover-lift ${
                   isActive 
-                    ? 'text-teal-400 border-b-2 border-teal-400' 
-                    : 'text-gray-300 hover:text-white'
+                    ? `${isDarkMode ? 'text-teal-400 border-b-2 border-teal-400' : 'text-teal-600 border-b-2 border-teal-600'}` 
+                    : `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`
                 }`
               }
             >
@@ -136,10 +127,10 @@ export default function Layout({ children }) {
             <NavLink
               to="/categories"
               className={({ isActive }) =>
-                `px-4 py-2 rounded-lg font-medium transition-colors ${
+                `px-4 py-2 rounded-lg font-medium transition-all duration-300 hover-lift ${
                   isActive 
-                    ? 'text-teal-400 border-b-2 border-teal-400' 
-                    : 'text-gray-300 hover:text-white'
+                    ? `${isDarkMode ? 'text-teal-400 border-b-2 border-teal-400' : 'text-teal-600 border-b-2 border-teal-600'}` 
+                    : `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`
                 }`
               }
             >
@@ -148,10 +139,10 @@ export default function Layout({ children }) {
             <NavLink
               to="/personalized"
               className={({ isActive }) =>
-                `px-4 py-2 rounded-lg font-medium transition-colors ${
+                `px-4 py-2 rounded-lg font-medium transition-all duration-300 hover-lift ${
                   isActive 
-                    ? 'text-teal-400 border-b-2 border-teal-400' 
-                    : 'text-gray-300 hover:text-white'
+                    ? `${isDarkMode ? 'text-teal-400 border-b-2 border-teal-400' : 'text-teal-600 border-b-2 border-teal-600'}` 
+                    : `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`
                 }`
               }
             >
@@ -160,10 +151,10 @@ export default function Layout({ children }) {
             <NavLink
               to="/bookmarks"
               className={({ isActive }) =>
-                `px-4 py-2 rounded-lg font-medium transition-colors ${
+                `px-4 py-2 rounded-lg font-medium transition-all duration-300 hover-lift ${
                   isActive 
-                    ? 'text-teal-400 border-b-2 border-teal-400' 
-                    : 'text-gray-300 hover:text-white'
+                    ? `${isDarkMode ? 'text-teal-400 border-b-2 border-teal-400' : 'text-teal-600 border-b-2 border-teal-600'}` 
+                    : `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`
                 }`
               }
             >
@@ -175,15 +166,20 @@ export default function Layout({ children }) {
           <div className="flex items-center gap-4">
             {/* Search Bar */}
             <form className="hidden sm:block relative" onSubmit={handleSearch}>
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm cursor-pointer" onClick={handleSearch} />
+              <FaSearch className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm cursor-pointer transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
+              }`} onClick={handleSearch} />
               <input
                 type="text"
                 placeholder="Search news..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 onClick={handleSearchBarClick}
-                className="w-64 pl-10 pr-4 py-2 bg-slate-100 border border-slate-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
-                style={{ background: isDarkMode ? '#374151' : '#fff', color: isDarkMode ? '#fff' : '#111', borderColor: isDarkMode ? '#374151' : '#e5e7eb' }}
+                className={`w-64 pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300 hover-lift ${
+                  isDarkMode 
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                }`}
               />
             </form>
 
@@ -191,7 +187,11 @@ export default function Layout({ children }) {
             <div className="flex items-center gap-2">
               <motion.button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg transition-colors text-gray-400"
+                className={`p-2 rounded-lg transition-all duration-300 hover-lift ${
+                  isDarkMode 
+                    ? 'text-gray-400 hover:text-yellow-400 hover:bg-gray-700' 
+                    : 'text-gray-600 hover:text-blue-600 hover:bg-gray-100'
+                }`}
                 title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                 whileTap={{ rotate: 180, scale: 1.2 }}
                 whileHover={{ scale: 1.1 }}
@@ -214,7 +214,6 @@ export default function Layout({ children }) {
                       initial={{ opacity: 0, rotate: 90 }}
                       animate={{ opacity: 1, rotate: 0 }}
                       exit={{ opacity: 0, rotate: -90 }}
-                      transition={{ duration: 0.3 }}
                     >
                       <FaMoon className="text-blue-800" />
                     </motion.span>
@@ -243,13 +242,21 @@ export default function Layout({ children }) {
               </button>  */}
               <NavLink
                 to="/bookmarks"
-                className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-400"
+                className={`p-2 rounded-lg transition-all duration-300 hover-lift ${
+                  isDarkMode 
+                    ? 'text-gray-400 hover:text-teal-400 hover:bg-gray-700' 
+                    : 'text-gray-600 hover:text-teal-600 hover:bg-gray-100'
+                }`}
               >
                 <FaBookmark />
               </NavLink>
               <NavLink
                 to="/settings"
-                className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-400"
+                className={`p-2 rounded-lg transition-all duration-300 hover-lift ${
+                  isDarkMode 
+                    ? 'text-gray-400 hover:text-teal-400 hover:bg-gray-700' 
+                    : 'text-gray-600 hover:text-teal-600 hover:bg-gray-100'
+                }`}
               >
                 <FaCog />
               </NavLink>
@@ -257,7 +264,11 @@ export default function Layout({ children }) {
               {/* User Menu */}
               <div className="relative">
                 <button
-                  className="p-2 rounded-full hover:bg-gray-700 transition-colors text-gray-400 focus:outline-none"
+                  className={`p-2 rounded-full transition-all duration-300 hover-lift focus:outline-none ${
+                    isDarkMode 
+                      ? 'text-gray-400 hover:text-teal-400 hover:bg-gray-700' 
+                      : 'text-gray-600 hover:text-teal-600 hover:bg-gray-100'
+                  }`}
                   onClick={() => setShowProfileDropdown((v) => !v)}
                 >
                   <FaUser />
@@ -269,19 +280,31 @@ export default function Layout({ children }) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700"
+                      className={`absolute right-0 mt-2 w-40 rounded-lg shadow-lg z-50 border theme-transition ${
+                        isDarkMode 
+                          ? 'bg-gray-800 border-gray-700' 
+                          : 'bg-white border-gray-200'
+                      }`}
                     >
                       <div className="flex flex-col py-2">
                         <NavLink
                           to="/login"
-                          className="px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+                          className={`px-4 py-2 rounded transition-all duration-300 ${
+                            isDarkMode 
+                              ? 'text-gray-200 hover:bg-gray-700 hover:text-white' 
+                              : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                          }`}
                           onClick={() => setShowProfileDropdown(false)}
                         >
                           Login
                         </NavLink>
                         <NavLink
                           to="/register"
-                          className="px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+                          className={`px-4 py-2 rounded transition-all duration-300 ${
+                            isDarkMode 
+                              ? 'text-gray-200 hover:bg-gray-700 hover:text-white' 
+                              : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                          }`}
                           onClick={() => setShowProfileDropdown(false)}
                         >
                           Sign Up
@@ -298,9 +321,13 @@ export default function Layout({ children }) {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className={`fixed lg:static inset-y-0 left-0 z-40 w-80 bg-gray-800 border-r border-gray-700 transform transition-transform duration-300 ease-in-out ${
+        <aside className={`fixed lg:static inset-y-0 left-0 z-40 w-80 border-r transform transition-all duration-300 ease-in-out theme-transition ${
+          isDarkMode 
+            ? 'bg-gray-800 border-gray-700' 
+            : 'bg-gray-50 border-gray-200'
+        } ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`} style={{ backgroundColor: '#111827' }}>
+        }`}>
           <div className="flex flex-col h-full  overflow-y-auto custom-scrollbar">
             {/* Top Logo Section */}
             <div className="px-6 mb-6">
@@ -312,37 +339,29 @@ export default function Layout({ children }) {
             {/* View All Categories Button */}
             <div className="px-6 mb-3">
               <button
-                className="w-full flex items-center justify-between px-4 py-3 border rounded-lg font-medium transition-colors"
-                style={{
-                  background: '#123840',
-                  borderColor: '#14b8a6',
-                  color: '#14b8a6',
-                  boxShadow: '0 1px 2px 0 rgba(20,184,166,0.03)',
-                }}
-                onMouseOver={e => {
-                  e.currentTarget.style.background = 'linear-gradient(90deg, #123840 90%, #14b8a610 100%)';
-                }}
-                onMouseOut={e => {
-                  e.currentTarget.style.background = '#123840';
-                }}
+                className={`w-full flex items-center justify-between px-4 py-3 border rounded-lg font-medium transition-all duration-300 hover-lift btn-animated ${
+                  isDarkMode 
+                    ? 'bg-teal-900/30 border-teal-500 text-teal-400 hover:bg-teal-900/50' 
+                    : 'bg-teal-50 border-teal-300 text-teal-600 hover:bg-teal-100'
+                }`}
                 onClick={() => navigate('/categories')}
               >
                 <div className="flex items-center gap-3">
                   {/* Custom 3x3 grid icon */}
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="3" y="3" width="5" height="5" rx="1" fill="#14b8a6"/>
-                    <rect x="10" y="3" width="5" height="5" rx="1" fill="#14b8a6"/>
-                    <rect x="17" y="3" width="4" height="5" rx="1" fill="#14b8a6"/>
-                    <rect x="3" y="10" width="5" height="5" rx="1" fill="#14b8a6"/>
-                    <rect x="10" y="10" width="5" height="5" rx="1" fill="#14b8a6"/>
-                    <rect x="17" y="10" width="4" height="5" rx="1" fill="#14b8a6"/>
-                    <rect x="3" y="17" width="5" height="4" rx="1" fill="#14b8a6"/>
-                    <rect x="10" y="17" width="5" height="4" rx="1" fill="#14b8a6"/>
-                    <rect x="17" y="17" width="4" height="4" rx="1" fill="#14b8a6"/>
+                    <rect x="3" y="3" width="5" height="5" rx="1" fill="currentColor"/>
+                    <rect x="10" y="3" width="5" height="5" rx="1" fill="currentColor"/>
+                    <rect x="17" y="3" width="4" height="5" rx="1" fill="currentColor"/>
+                    <rect x="3" y="10" width="5" height="5" rx="1" fill="currentColor"/>
+                    <rect x="10" y="10" width="5" height="5" rx="1" fill="currentColor"/>
+                    <rect x="17" y="10" width="4" height="5" rx="1" fill="currentColor"/>
+                    <rect x="3" y="17" width="5" height="4" rx="1" fill="currentColor"/>
+                    <rect x="10" y="17" width="5" height="4" rx="1" fill="currentColor"/>
+                    <rect x="17" y="17" width="4" height="4" rx="1" fill="currentColor"/>
                   </svg>
-                  <span className="font-medium" style={{ color: '#14b8a6' }}>View All Categories</span>
+                  <span className="font-medium">View All Categories</span>
                 </div>
-                <FaArrowRight className="text-lg" style={{ color: '#14b8a6' }} />
+                <FaArrowRight className="text-lg" />
               </button>
             </div>
 
@@ -350,18 +369,9 @@ export default function Layout({ children }) {
             <div className="px-6 mb-5">
               <div className="flex items-center gap-2 ">
                 <h5
-                  style={{
-                    fontFamily: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-                    fontWeight: 600,
-                    fontSize: '12px',
-                    lineHeight: '16px',
-                    color: 'rgb(156, 163, 175)',
-                    fontStyle: 'normal',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    marginBottom: '1rem',
-                  }}
-                  className="mb-4 animate-fadeIn"
+                  className={`mb-4 animate-fadeIn font-semibold text-xs leading-4 tracking-wider uppercase transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}
                 >
                   Categories
                 </h5>
@@ -374,10 +384,10 @@ export default function Layout({ children }) {
                     to={category.id === 'all' ? '/' : '/search'}
                     state={category.id === 'all' ? {} : { category: category.id }}
                     className={({ isActive }) =>
-                      `flex items-center justify-between px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      `flex items-center justify-between px-5 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover-lift ${
                         isActive && category.id === 'all'
-                          ? 'bg-teal-500 text-white'
-                          : 'text-white hover:bg-gray-700 hover:text-white'
+                          ? `${isDarkMode ? 'bg-teal-500 text-white' : 'bg-teal-100 text-teal-800'}`
+                          : `${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`
                       }`
                     }
                     onClick={() => setSidebarOpen(false)}
@@ -386,7 +396,9 @@ export default function Layout({ children }) {
                       <>
                         <div className="flex items-center gap-3">
                           <category.icon className={`text-xl ${isActive && category.id === 'all' ? 'text-white' : category.color}`} />
-                          <span className="font-medium  text-base text-gray-300">{category.label}</span>
+                          <span className={`font-medium text-base transition-colors duration-300 ${
+                            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                          }`}>{category.label}</span>
                         </div>
                         {isActive && category.id === 'all' && <FaArrowRight className="text-sm" />}
                       </>
@@ -400,18 +412,9 @@ export default function Layout({ children }) {
             <div className="px-6 ">
               <div className="flex items-center gap-2 ">
                 <h5
-                  style={{
-                    fontFamily: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-                    fontWeight: 600,
-                    fontSize: '12px',
-                    lineHeight: '16px',
-                    color: 'rgb(156, 163, 175)',
-                    fontStyle: 'normal',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    marginBottom: '1rem',
-                  }}
-                  className="mb-4 animate-fadeIn"
+                  className={`mb-4 animate-fadeIn font-semibold text-xs leading-4 tracking-wider uppercase transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}
                 >
                   Quick Actions
                 </h5>
@@ -423,16 +426,20 @@ export default function Layout({ children }) {
                     key={action.id}
                     to={action.path}
                     className={({ isActive }) =>
-                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover-lift ${
                         isActive
-                          ? 'bg-teal-500/20 text-teal-400'
-                          : 'text-white hover:bg-gray-700 hover:white'
+                          ? `${isDarkMode ? 'bg-teal-500/20 text-teal-400' : 'bg-teal-100 text-teal-700'}`
+                          : `${isDarkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`
                       }`
                     }
                     onClick={() => setSidebarOpen(false)}
                   >
-                    <action.icon className="text-lg text-gray-300 " />
-                    <span className="font-medium text-base text-gray-300">{action.label}</span>
+                    <action.icon className={`text-lg transition-colors duration-300 ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    }`} />
+                    <span className={`font-medium text-base transition-colors duration-300 ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    }`}>{action.label}</span>
                   </NavLink>
                 ))}
               </nav>
@@ -452,7 +459,9 @@ export default function Layout({ children }) {
         )}
 
         {/* Main Content */}
-        <main className="flex-1 min-h-screen bg-gray-900">
+        <main className={`flex-1 min-h-screen theme-transition ${
+          isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+        }`}>
           <div className="max-w-7xl mx-auto">
             {children}
           </div>
