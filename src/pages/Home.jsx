@@ -34,6 +34,22 @@ export default function Home() {
     loadTrendingArticles();
   }, []);
 
+  // Handle category changes from sidebar
+  useEffect(() => {
+    const savedCategory = window.sessionStorage.getItem('selectedCategory');
+    if (savedCategory) {
+      setFilters(prev => ({ ...prev, category: savedCategory === 'all' ? '' : savedCategory }));
+    }
+
+    const handleCategoryChange = (event) => {
+      const newCategory = event.detail;
+      setFilters(prev => ({ ...prev, category: newCategory === 'all' ? '' : newCategory }));
+    };
+
+    window.addEventListener('categoryChanged', handleCategoryChange);
+    return () => window.removeEventListener('categoryChanged', handleCategoryChange);
+  }, []);
+
   // Fetch news when filters change or auth state changes
   useEffect(() => {
     if (activeTab === 'headlines') {
@@ -95,6 +111,13 @@ export default function Home() {
     if (tab === 'trending') {
       loadTrendingArticles();
     }
+  };
+
+  const handleCategoryChange = (category) => {
+    setFilters(prev => ({
+      ...prev,
+      category: category
+    }));
   };
 
   const trendingTopics = [
@@ -164,7 +187,7 @@ export default function Home() {
               <h1 className={`text-3xl font-bold mb-2 ${
                 isDarkMode ? 'text-white' : 'text-gray-900'
               }`}>
-                Latest News
+                {filters.category ? `${filters.category.charAt(0).toUpperCase() + filters.category.slice(1)} News` : 'Latest News'}
               </h1>
               <p className={`${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
