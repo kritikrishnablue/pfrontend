@@ -131,14 +131,9 @@ export default function Categories() {
 
 
   return (
-    <motion.div 
-      className={`p-4 max-w-6xl mx-auto min-h-screen theme-transition ${
+    <div className={`p-4 max-w-6xl mx-auto min-h-screen theme-transition ${
       isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
       {/* Header */}
       <motion.div 
         className="mb-8"
@@ -260,7 +255,7 @@ export default function Categories() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
@@ -269,7 +264,7 @@ function CategoryCard({ category, onClick, isDarkMode }) {
   
   return (
     <motion.div 
-      className={`rounded-lg p-6 cursor-pointer border transition-all duration-300 hover:shadow-lg ${
+      className={`rounded-lg p-6 cursor-pointer border transition-all duration-300 hover-lift ${
         isDarkMode 
           ? 'bg-gray-800 hover:bg-gray-700 border-gray-700 hover:border-gray-600' 
           : 'bg-white hover:bg-gray-50 border-gray-200 hover:border-gray-300'
@@ -277,7 +272,6 @@ function CategoryCard({ category, onClick, isDarkMode }) {
       onClick={onClick}
       whileHover={{ y: -4, scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      layout
     >
       <div className="flex items-start justify-between mb-4">
         <div className={`w-12 h-12 ${category.color} rounded-lg flex items-center justify-center`}>
