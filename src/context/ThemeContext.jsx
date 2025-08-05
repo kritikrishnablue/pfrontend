@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 const ThemeContext = createContext();
 
@@ -36,16 +37,20 @@ export const ThemeProvider = ({ children }) => {
       document.documentElement.style.setProperty('--text-secondary', '#d1d5db');
       document.documentElement.style.setProperty('--text-tertiary', '#9ca3af');
       document.documentElement.style.setProperty('--border-color', '#4b5563');
+      document.documentElement.style.setProperty('--accent-color', '#14b8a6');
+      document.documentElement.style.setProperty('--accent-hover', '#0f766e');
     } else {
       document.documentElement.classList.remove('dark');
       document.body.classList.remove('dark');
       document.documentElement.style.setProperty('--bg-primary', '#ffffff');
-      document.documentElement.style.setProperty('--bg-secondary', '#f9fafb');
-      document.documentElement.style.setProperty('--bg-tertiary', '#f3f4f6');
-      document.documentElement.style.setProperty('--text-primary', '#111827');
-      document.documentElement.style.setProperty('--text-secondary', '#374151');
-      document.documentElement.style.setProperty('--text-tertiary', '#6b7280');
-      document.documentElement.style.setProperty('--border-color', '#d1d5db');
+      document.documentElement.style.setProperty('--bg-secondary', '#f8fafc');
+      document.documentElement.style.setProperty('--bg-tertiary', '#f1f5f9');
+      document.documentElement.style.setProperty('--text-primary', '#0f172a');
+      document.documentElement.style.setProperty('--text-secondary', '#334155');
+      document.documentElement.style.setProperty('--text-tertiary', '#64748b');
+      document.documentElement.style.setProperty('--border-color', '#e2e8f0');
+      document.documentElement.style.setProperty('--accent-color', '#0ea5e9');
+      document.documentElement.style.setProperty('--accent-hover', '#0284c7');
     }
   }, [isDarkMode]);
 

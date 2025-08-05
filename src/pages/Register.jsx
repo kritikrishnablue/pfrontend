@@ -129,48 +129,94 @@ export default function Register() {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto flex items-center justify-center min-h-[80vh]">
-      <div className="bg-gray-800 shadow-lg rounded-lg p-8 w-full border border-gray-700">
-        <h1 className="text-2xl font-bold mb-6 text-center text-cyan-400">Create an Account</h1>
+    <motion.div 
+      className={`p-4 max-w-md mx-auto flex items-center justify-center min-h-[80vh] transition-all duration-500 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+    >
+      <motion.div 
+        className={`shadow-lg rounded-lg p-8 w-full border transition-all duration-500 ${
+          isDarkMode 
+            ? 'bg-gray-800 border-gray-700' 
+            : 'bg-white border-gray-200'
+        }`}
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <h1 className={`text-2xl font-bold mb-6 text-center ${
+          isDarkMode ? 'text-teal-400' : 'text-blue-600'
+        }`}>Create an Account</h1>
         
         {/* Social Sign-in Buttons */}
-        <div className="mb-6 space-y-3">
-          <button
+        <motion.div 
+          className="mb-6 space-y-3"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <motion.button
             type="button"
             onClick={handleGoogleSignIn}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white text-gray-800 rounded-lg hover:bg-gray-100 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={oauthLoading.google || oauthLoading.apple}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             <FaGoogle className="text-red-500" />
             {oauthLoading.google ? 'Signing in...' : 'Continue with Google'}
-          </button>
+          </motion.button>
           
-          <button
+          <motion.button
             type="button"
             onClick={handleAppleSignIn}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={oauthLoading.apple || oauthLoading.google}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             <FaApple />
             {oauthLoading.apple ? 'Signing in...' : 'Continue with Apple'}
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* Divider */}
-        <div className="relative mb-6">
+        <motion.div 
+          className="relative mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-600"></div>
+            <div className={`w-full border-t ${
+              isDarkMode ? 'border-gray-600' : 'border-gray-300'
+            }`}></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-gray-800 text-gray-400">or register with email</span>
+            <span className={`px-2 ${
+              isDarkMode 
+                ? 'bg-gray-800 text-gray-400' 
+                : 'bg-white text-gray-600'
+            }`}>or register with email</span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Registration Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <motion.form 
+          onSubmit={handleSubmit} 
+          className="space-y-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
           {/* Username Field */}
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+            <label className={`block text-sm font-semibold mb-2 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               <FaUser className="inline mr-2" />
               Username
             </label>
@@ -180,7 +226,11 @@ export default function Register() {
               placeholder="Enter your username"
               value={formData.username}
               onChange={handleInputChange}
-              className={`w-full px-3 py-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${
+              className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 transition-all duration-300 hover:scale-105 ${
+                isDarkMode 
+                  ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600 focus:ring-teal-400' 
+                  : 'bg-white text-gray-900 placeholder-gray-500 border-gray-300 focus:ring-blue-500'
+              } ${
                 errors.username ? 'border-red-500' : 'border-gray-600'
               }`}
               required
@@ -193,7 +243,9 @@ export default function Register() {
 
           {/* Email Field */}
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+            <label className={`block text-sm font-semibold mb-2 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               <FaEnvelope className="inline mr-2" />
               Email
             </label>
@@ -203,7 +255,11 @@ export default function Register() {
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleInputChange}
-              className={`w-full px-3 py-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${
+              className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 transition-all duration-300 hover:scale-105 ${
+                isDarkMode 
+                  ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600 focus:ring-teal-400' 
+                  : 'bg-white text-gray-900 placeholder-gray-500 border-gray-300 focus:ring-blue-500'
+              } ${
                 errors.email ? 'border-red-500' : 'border-gray-600'
               }`}
               required
@@ -216,7 +272,9 @@ export default function Register() {
 
           {/* Password Field */}
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+            <label className={`block text-sm font-semibold mb-2 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               <FaLock className="inline mr-2" />
               Password
             </label>
@@ -227,7 +285,11 @@ export default function Register() {
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 pr-10 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${
+                className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 transition-all duration-300 hover:scale-105 ${
+                  isDarkMode 
+                    ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600 focus:ring-teal-400' 
+                    : 'bg-white text-gray-900 placeholder-gray-500 border-gray-300 focus:ring-blue-500'
+                } ${
                   errors.password ? 'border-red-500' : 'border-gray-600'
                 }`}
                 required
@@ -236,7 +298,11 @@ export default function Register() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-300"
+                className={`absolute inset-y-0 right-0 pr-3 flex items-center transition-colors duration-300 ${
+                  isDarkMode 
+                    ? 'text-gray-400 hover:text-gray-300' 
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
                 disabled={loading}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -249,7 +315,9 @@ export default function Register() {
 
           {/* Confirm Password Field */}
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+            <label className={`block text-sm font-semibold mb-2 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               <FaLock className="inline mr-2" />
               Confirm Password
             </label>
@@ -260,7 +328,11 @@ export default function Register() {
                 placeholder="Confirm your password"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 pr-10 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${
+                className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 transition-all duration-300 hover:scale-105 ${
+                  isDarkMode 
+                    ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600 focus:ring-teal-400' 
+                    : 'bg-white text-gray-900 placeholder-gray-500 border-gray-300 focus:ring-blue-500'
+                } ${
                   errors.confirmPassword ? 'border-red-500' : 'border-gray-600'
                 }`}
                 required
@@ -269,7 +341,11 @@ export default function Register() {
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-300"
+                className={`absolute inset-y-0 right-0 pr-3 flex items-center transition-colors duration-300 ${
+                  isDarkMode 
+                    ? 'text-gray-400 hover:text-gray-300' 
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
                 disabled={loading}
               >
                 {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
@@ -281,45 +357,85 @@ export default function Register() {
           </div>
 
           {/* Submit Button */}
-          <button 
+          <motion.button 
             type="submit" 
-            className="w-full px-4 py-3 bg-cyan-500 text-white border border-cyan-600 rounded-lg hover:bg-cyan-600 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className={`w-full px-4 py-3 text-white border rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 ${
+              isDarkMode 
+                ? 'bg-teal-500 border-teal-600 hover:bg-teal-600' 
+                : 'bg-blue-500 border-blue-600 hover:bg-blue-600'
+            }`}
             disabled={loading || oauthLoading.google || oauthLoading.apple}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             {loading ? 'Creating account...' : 'Create Account'}
-          </button>
+          </motion.button>
 
           {/* Error Display */}
           {error && (
-            <div className="text-red-400 text-center text-sm bg-red-900/20 border border-red-500 rounded-lg p-3">
+            <motion.div 
+              className={`text-center text-sm border rounded-lg p-3 ${
+                isDarkMode 
+                  ? 'text-red-400 bg-red-900/20 border-red-500' 
+                  : 'text-red-700 bg-red-50 border-red-300'
+              }`}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+            >
               {error}
-            </div>
+            </motion.div>
           )}
-        </form>
+        </motion.form>
 
         {/* Login Link */}
-        <div className="mt-6 text-center">
-          <p className="text-gray-400">
+        <motion.div 
+          className="mt-6 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <p className={`${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             Already have an account?{' '}
             <Link 
               to="/login" 
-              className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors"
+              className={`font-semibold transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'text-teal-400 hover:text-teal-300' 
+                  : 'text-blue-600 hover:text-blue-700'
+              }`}
             >
               Sign in here
             </Link>
           </p>
-        </div>
+        </motion.div>
 
         {/* Terms and Privacy */}
-        <div className="mt-4 text-center">
-          <p className="text-xs text-gray-500">
+        <motion.div 
+          className="mt-4 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+        >
+          <p className={`text-xs ${
+            isDarkMode ? 'text-gray-500' : 'text-gray-600'
+          }`}>
             By creating an account, you agree to our{' '}
-            <a href="#" className="text-cyan-400 hover:text-cyan-300">Terms of Service</a>
+            <a href="#" className={`transition-colors duration-300 ${
+              isDarkMode 
+                ? 'text-teal-400 hover:text-teal-300' 
+                : 'text-blue-600 hover:text-blue-700'
+            }`}>Terms of Service</a>
             {' '}and{' '}
-            <a href="#" className="text-cyan-400 hover:text-cyan-300">Privacy Policy</a>
+            <a href="#" className={`transition-colors duration-300 ${
+              isDarkMode 
+                ? 'text-teal-400 hover:text-teal-300' 
+                : 'text-blue-600 hover:text-blue-700'
+            }`}>Privacy Policy</a>
           </p>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }

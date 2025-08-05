@@ -58,85 +58,151 @@ export default function Bookmarks() {
   }
 
   return (
-    <div className="p-4 max-w-6xl mx-auto">
+    <motion.div 
+      className={`p-4 max-w-6xl mx-auto min-h-screen transition-all duration-500 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Header */}
-      <div className="mb-6">
+      <motion.div 
+        className="mb-6"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Bookmarks</h1>
-            <p className="text-gray-400">
+            <h1 className={`text-3xl font-bold mb-2 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>Bookmarks</h1>
+            <p className={`${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>
               Your saved articles and reading list
             </p>
           </div>
           {bookmarks.length > 0 && (
-            <button
+            <motion.button
               onClick={() => setBookmarks([])}
-              className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-all duration-300 hover:scale-105"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <FaTrash className="text-sm" />
               Clear All
-            </button>
+            </motion.button>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div>
         {loading && (
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500 mx-auto"></div>
-            <p className="mt-2 text-gray-400">Loading bookmarks...</p>
+            <p className={`mt-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Loading bookmarks...</p>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-900 border border-red-700 rounded-lg p-4 mb-4">
-            <p className="text-red-200">Error: {error}</p>
-          </div>
+          <motion.div 
+            className={`border rounded-lg p-4 mb-4 ${
+              isDarkMode 
+                ? 'bg-red-900/30 border-red-700 text-red-200' 
+                : 'bg-red-50 border-red-300 text-red-700'
+            }`}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <p>Error: {error}</p>
+          </motion.div>
         )}
 
         {!loading && !error && bookmarks.length === 0 && (
-          <div className="text-center py-8">
-            <div className="bg-gray-800 rounded-lg p-6">
-              <FaBookmark className="text-4xl text-gray-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-300 mb-2">No Bookmarks</h3>
-              <p className="text-gray-400 mb-4">
+          <motion.div 
+            className="text-center py-8"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className={`rounded-lg p-6 ${
+              isDarkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'
+            }`}>
+              <FaBookmark className={`text-4xl mx-auto mb-4 ${
+                isDarkMode ? 'text-gray-600' : 'text-gray-400'
+              }`} />
+              <h3 className={`text-lg font-semibold mb-2 ${
+                isDarkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>No Bookmarks</h3>
+              <p className={`mb-4 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 You haven't bookmarked any articles yet. Start reading and bookmark articles you want to save for later.
               </p>
-              <a 
+              <motion.a 
                 href="/" 
-                className="inline-block px-4 py-2 bg-cyan-500 text-white rounded hover:bg-cyan-600 transition-colors"
+                className={`inline-block px-4 py-2 text-white rounded transition-all duration-300 hover:scale-105 ${
+                  isDarkMode 
+                    ? 'bg-teal-500 hover:bg-teal-600' 
+                    : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Browse News
-              </a>
+              </motion.a>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {!loading && !error && bookmarks.length > 0 && (
           <div>
-            <div className="mb-4 p-4 bg-blue-900 border border-blue-700 rounded-lg">
-              <h3 className="font-semibold text-blue-200 mb-2">Your Bookmarks</h3>
-              <p className="text-blue-100 text-sm">
+            <motion.div 
+              className={`mb-4 p-4 border rounded-lg ${
+                isDarkMode 
+                  ? 'bg-blue-900/30 border-blue-700' 
+                  : 'bg-blue-50 border-blue-300'
+              }`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className={`font-semibold mb-2 ${
+                isDarkMode ? 'text-blue-200' : 'text-blue-700'
+              }`}>Your Bookmarks</h3>
+              <p className={`text-sm ${
+                isDarkMode ? 'text-blue-100' : 'text-blue-600'
+              }`}>
                 You have {bookmarks.length} bookmarked articles.
               </p>
-            </div>
+            </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {bookmarks.map(article => (
-                <div key={article.url} className="relative">
+                <motion.div 
+                  key={article.url} 
+                  className="relative"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
                   <NewsCard
                     article={article}
                     showStatus={true}
                   />
-                  <button
+                  <motion.button
                     onClick={() => handleUnbookmark(article)}
                     className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors z-10"
                     title="Remove bookmark"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <FaTrash className="text-xs" />
-                  </button>
-                </div>
+                  </motion.button>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -145,9 +211,20 @@ export default function Bookmarks() {
 
       {/* Stats */}
       {!loading && !error && bookmarks.length > 0 && (
-        <div className="mt-8 p-4 bg-gray-800 rounded-lg">
-          <h3 className="font-semibold mb-2 text-white">Bookmarks Summary</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-300">
+        <motion.div 
+          className={`mt-8 p-4 rounded-lg ${
+            isDarkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'
+          }`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <h3 className={`font-semibold mb-2 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Bookmarks Summary</h3>
+          <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 text-sm ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-700'
+          }`}>
             <div>
               <span className="font-medium">Total Bookmarks:</span> {bookmarks.length}
             </div>
@@ -167,8 +244,8 @@ export default function Bookmarks() {
               }
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

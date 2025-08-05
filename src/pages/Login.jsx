@@ -30,9 +30,14 @@ export default function Login() {
   };
 
   return (
-    <div className={`p-4 max-w-md mx-auto flex items-center justify-center min-h-[80vh] theme-transition ${
+    <motion.div 
+      className={`p-4 max-w-md mx-auto flex items-center justify-center min-h-[80vh] theme-transition ${
       isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       <motion.div 
         className={`shadow-lg rounded-lg p-8 w-full border theme-transition ${
           isDarkMode 
@@ -72,10 +77,10 @@ export default function Login() {
               placeholder="Enter your email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-300 hover-lift ${
+              className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 transition-all duration-300 hover:scale-105 ${
                 isDarkMode 
-                  ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' 
-                  : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'
+                  ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:ring-teal-400' 
+                  : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-blue-500'
               }`}
               required
               disabled={loading}
@@ -95,10 +100,10 @@ export default function Login() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-300 hover-lift ${
+                className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 transition-all duration-300 hover:scale-105 ${
                   isDarkMode 
-                    ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' 
-                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'
+                    ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:ring-teal-400' 
+                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-blue-500'
                 }`}
                 required
                 disabled={loading}
@@ -122,7 +127,11 @@ export default function Login() {
           
           <motion.button 
             type="submit" 
-            className="w-full px-4 py-3 bg-cyan-500 text-white border border-cyan-600 rounded-lg hover:bg-cyan-600 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 btn-animated"
+            className={`w-full px-4 py-3 text-white border rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 btn-animated ${
+              isDarkMode 
+                ? 'bg-teal-500 border-teal-600 hover:bg-teal-600' 
+                : 'bg-blue-500 border-blue-600 hover:bg-blue-600'
+            }`}
             disabled={loading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -160,8 +169,8 @@ export default function Login() {
               to="/register" 
               className={`font-semibold transition-colors duration-300 ${
                 isDarkMode 
-                  ? 'text-cyan-400 hover:text-cyan-300' 
-                  : 'text-cyan-600 hover:text-cyan-700'
+                  ? 'text-teal-400 hover:text-teal-300' 
+                  : 'text-blue-600 hover:text-blue-700'
               }`}
             >
               Sign up here
@@ -180,14 +189,14 @@ export default function Login() {
             href="#" 
             className={`text-sm transition-colors duration-300 ${
               isDarkMode 
-                ? 'text-cyan-400 hover:text-cyan-300' 
-                : 'text-cyan-600 hover:text-cyan-700'
+                ? 'text-teal-400 hover:text-teal-300' 
+                : 'text-blue-600 hover:text-blue-700'
             }`}
           >
             Forgot your password?
           </a>
         </motion.div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

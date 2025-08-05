@@ -190,14 +190,20 @@ export default function Settings() {
             <span
               key={index}
               className="flex items-center gap-2 px-3 py-1 bg-gray-700 dark:bg-gray-700 bg-gray-200 text-gray-300 dark:text-gray-300 text-gray-700 rounded-full text-sm"
-            >
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
               {keyword}
-              <button
-                onClick={() => handleRemoveKeyword(index)}
+                    ? isDarkMode 
+                      ? 'bg-teal-500 text-white' 
+                      : 'bg-blue-500 text-white'
+                    : isDarkMode 
+                      ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
                 className="text-gray-400 dark:text-gray-400 text-gray-600 hover:text-white dark:hover:text-white hover:text-gray-900"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <FaTimes className="text-xs" />
-              </button>
+              </motion.button>
             </span>
           ))}
         </div>
@@ -310,12 +316,32 @@ export default function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-900 bg-white">
+    <motion.div 
+      className={`min-h-screen transition-all duration-500 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       <div className="flex">
         {/* Sidebar Navigation */}
-        <div className="w-64 bg-gray-800 dark:bg-gray-800 bg-gray-100 min-h-screen p-6">
-          <h1 className="text-white dark:text-white text-gray-900 text-2xl font-bold mb-2">Settings</h1>
-          <p className="text-gray-400 dark:text-gray-400 text-gray-600 text-sm mb-8">Customize your news experience and manage your account</p>
+        <motion.div 
+          className={`w-64 min-h-screen p-6 transition-all duration-500 ${
+            isDarkMode 
+              ? 'bg-gray-800' 
+              : 'bg-white border-r border-gray-200'
+          }`}
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className={`text-2xl font-bold mb-2 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Settings</h1>
+          <p className={`text-sm mb-8 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>Customize your news experience and manage your account</p>
           
           <nav className="space-y-2">
             <button
@@ -353,13 +379,18 @@ export default function Settings() {
             </button>
 
           </nav>
-        </div>
+        </motion.div>
 
         {/* Main Content */}
-        <div className="flex-1 p-8">
+        <motion.div 
+          className="flex-1 p-8"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           {renderContent()}
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 } 

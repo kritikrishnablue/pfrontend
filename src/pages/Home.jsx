@@ -126,9 +126,14 @@ export default function Home() {
   ];
 
   return (
-    <div className={`min-h-screen theme-transition ${
-      isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
-    }`}>
+    <motion.div 
+      className={`min-h-screen theme-transition ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Trending Topics Bar */}
       <motion.div 
         className={`border-b px-6 py-4 theme-transition ${
@@ -156,7 +161,7 @@ export default function Home() {
             {trendingTopics.map((topic, index) => (
               <motion.button
                 key={index}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 hover-lift ${
+                className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 ${
                   isDarkMode 
                     ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white' 
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900'
@@ -306,6 +311,6 @@ export default function Home() {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -162,7 +162,18 @@ export default function NewsCard({ article, onLike, onBookmark, onShare, showSta
 
   return (
     <>
-      <div className=" rounded-lg overflow-hidden hover:bg-slate-750 transition-all duration-300 border border-slate-700 hover:border-slate-600" style={{ backgroundColor: '#1F2937' }}>
+      <motion.div 
+        className={`rounded-lg overflow-hidden transition-all duration-300 border hover:shadow-lg ${
+          isDarkMode 
+            ? 'bg-gray-800 border-gray-700 hover:bg-gray-750 hover:border-gray-600' 
+            : 'bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300'
+        }`}
+        whileHover={{ y: -4, scale: 1.02 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        layout
+      >
         {/* Article Image */}
         <div className="relative">
           {imageUrl && !imageError ? (
@@ -178,7 +189,13 @@ export default function NewsCard({ article, onLike, onBookmark, onShare, showSta
               />
               {imageLoading && (
                 <div className="absolute inset-0 bg-slate-700 flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500"></div>
+                  <motion.div 
+                    className={`rounded-full h-8 w-8 border-b-2 ${
+                      isDarkMode ? 'border-teal-500' : 'border-blue-500'
+                    }`}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  />
                 </div>
               )}
               {/* Video Play Button Overlay */}
@@ -193,8 +210,12 @@ export default function NewsCard({ article, onLike, onBookmark, onShare, showSta
           ) : (
             <div className="w-full h-48 bg-slate-700 flex items-center justify-center">
               <div className="text-center">
-                <FaEye className="text-gray-500 text-4xl mx-auto mb-2" />
-                <p className="text-gray-400 text-sm capitalize">{category}</p>
+                <FaEye className={`text-4xl mx-auto mb-2 ${
+                  isDarkMode ? 'text-gray-500' : 'text-gray-400'
+                }`} />
+                <p className={`text-sm capitalize ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>{category}</p>
               </div>
             </div>
           )}
@@ -260,30 +281,44 @@ export default function NewsCard({ article, onLike, onBookmark, onShare, showSta
           </div>
 
           {/* Title */}
-          <h3 className="text-white font-bold text-lg mb-3 line-clamp-2 cursor-pointer hover:text-teal-400 transition-colors leading-tight">
+          <h3 className={`font-bold text-lg mb-3 line-clamp-2 cursor-pointer transition-colors leading-tight ${
+            isDarkMode 
+              ? 'text-white hover:text-teal-400' 
+              : 'text-gray-900 hover:text-blue-600'
+          }`}>
             {article.title}
           </h3>
 
           {/* Description */}
-          <p className="text-gray-300 text-sm mb-4 line-clamp-3 leading-relaxed">
+          <p className={`text-sm mb-4 line-clamp-3 leading-relaxed ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             {article.description || article.summary || 'No description available'}
           </p>
 
           {/* Meta and Actions */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-gray-400 text-xs">
+            <div className={`flex items-center gap-3 text-xs ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               <span className="font-medium">4 min read</span>
             </div>
-            <button
+            <motion.button
               onClick={handleReadFullArticle}
-              className="flex items-center gap-2 px-3 py-1 text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium"
+              className={`flex items-center gap-2 px-3 py-1 transition-colors text-sm font-medium ${
+                isDarkMode 
+                  ? 'text-teal-400 hover:text-teal-300' 
+                  : 'text-blue-600 hover:text-blue-700'
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Read full article
               <FaExternalLinkAlt className="text-xs" />
-            </button>
+            </motion.button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Article Summary Modal */}
       {/* Remove modal opening for summary, as we now use a dedicated page */}

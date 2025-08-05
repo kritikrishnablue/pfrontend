@@ -50,40 +50,76 @@ export default function Search() {
   };
 
   return (
-    <div className="p-4 max-w-6xl mx-auto">
+    <motion.div 
+      className={`p-4 max-w-6xl mx-auto min-h-screen transition-all duration-500 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Search News</h1>
-        <p className="text-gray-500 dark:text-gray-400">
+      <motion.div 
+        className="mb-6"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className={`text-3xl font-bold mb-2 ${
+          isDarkMode ? 'text-white' : 'text-gray-900'
+        }`}>Search News</h1>
+        <p className={`${
+          isDarkMode ? 'text-gray-400' : 'text-gray-600'
+        }`}>
           Find news articles by entering any word, phrase, paragraph, or category below.
         </p>
-      </div>
+      </motion.div>
 
       {/* Search Box */}
-      <form onSubmit={handleFormSubmit} className="mb-8 flex flex-col sm:flex-row gap-4 items-center">
+      <motion.form 
+        onSubmit={handleFormSubmit} 
+        className="mb-8 flex flex-col sm:flex-row gap-4 items-center"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         <input
           type="text"
           value={searchInput}
           onChange={handleInputChange}
           placeholder="Type any word, phrase, paragraph, or category..."
-          className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-lg"
+          className={`flex-1 px-4 py-3 border rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 text-lg transition-all duration-300 ${
+            isDarkMode 
+              ? 'border-gray-600 bg-gray-700 text-white focus:ring-teal-400' 
+              : 'border-gray-300 bg-white text-gray-900 focus:ring-blue-500'
+          }`}
         />
-        <button
+        <motion.button
           type="submit"
-          className="px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors flex items-center gap-2 text-lg"
+          className={`px-6 py-3 text-white rounded-lg transition-all duration-300 flex items-center gap-2 text-lg hover:scale-105 ${
+            isDarkMode 
+              ? 'bg-teal-500 hover:bg-teal-600' 
+              : 'bg-blue-500 hover:bg-blue-600'
+          }`}
           disabled={loading}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <FaSearch className="text-xl" />
           {loading ? 'Searching...' : 'Search'}
-        </button>
+        </motion.button>
         <button
           type="button"
           onClick={clearResults}
-          className="px-4 py-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-lg"
+          className={`px-4 py-3 text-lg transition-all duration-300 hover:scale-105 ${
+            isDarkMode 
+              ? 'text-gray-400 hover:text-gray-300' 
+              : 'text-gray-600 hover:text-gray-800'
+          }`}
         >
           Clear
         </button>
-      </form>
+      </motion.form>
 
       {/* Results */}
       <div>
@@ -102,40 +138,77 @@ export default function Search() {
 
         {!loading && !error && articles.length > 0 && (
           <div>
-            <div className="mb-4 p-4 bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-lg">
-              <h3 className="font-semibold text-green-700 dark:text-green-200 mb-2">Search Results</h3>
-              <p className="text-green-700 dark:text-green-100 text-sm">
+            <motion.div 
+              className={`mb-4 p-4 border rounded-lg ${
+                isDarkMode 
+                  ? 'bg-green-900/30 border-green-700 text-green-200' 
+                  : 'bg-green-50 border-green-300 text-green-700'
+              }`}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className="font-semibold mb-2">Search Results</h3>
+              <p className="text-sm">
                 Found {articles.length} articles matching your search.
               </p>
-            </div>
+            </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {articles.map(article => (
-                <NewsCard
+                <motion.div
                   key={article.url || article.title}
-                  article={article}
-                  showStatus={true}
-                />
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <NewsCard
+                    article={article}
+                    showStatus={true}
+                  />
+                </motion.div>
               ))}
             </div>
           </div>
         )}
 
         {!loading && !error && articles.length === 0 && (
-          <div className="text-center py-8">
-            <FaSearch className="text-4xl text-gray-400 dark:text-gray-600 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">No Results Found</h3>
-            <p className="text-gray-500 dark:text-gray-400">
+          <motion.div 
+            className="text-center py-8"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <FaSearch className={`text-4xl mx-auto mb-4 ${
+              isDarkMode ? 'text-gray-600' : 'text-gray-400'
+            }`} />
+            <h3 className={`text-lg font-semibold mb-2 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>No Results Found</h3>
+            <p className={`${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>
               Try a different word, phrase, or category.
             </p>
-          </div>
+          </motion.div>
         )}
       </div>
 
       {/* Search Stats */}
       {!loading && !error && articles.length > 0 && (
-        <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-          <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">Search Summary</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700 dark:text-gray-300">
+        <motion.div 
+          className={`mt-8 p-4 rounded-lg ${
+            isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
+          }`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <h3 className={`font-semibold mb-2 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Search Summary</h3>
+          <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 text-sm ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-700'
+          }`}>
             <div>
               <span className="font-medium">Results:</span> {articles.length}
             </div>
@@ -143,8 +216,8 @@ export default function Search() {
               <span className="font-medium">Keywords:</span> {searchInput || 'None'}
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }
